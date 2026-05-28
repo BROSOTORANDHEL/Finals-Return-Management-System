@@ -1,9 +1,20 @@
 import express from "express";
-import * as returnController from "../controllers/returnController.js";
+import { 
+    updateReturnStatus, 
+    getReturnTracking, 
+    createNewReturnRequest, 
+    getAllReturns,
+    reviewReturnRequest
+} from "../controllers/returnController.js";
 import { mockAuthCheck } from "../middleware/integrationHooks.js";
 
 const returnRoutes = express.Router();
 
-returnRoutes.put("/:returnId/status", mockAuthCheck, returnController.updateReturnStatus);
+
+returnRoutes.post("/request", createNewReturnRequest);
+returnRoutes.put("/:returnId/review", reviewReturnRequest);
+returnRoutes.put("/:returnId/status", mockAuthCheck, updateReturnStatus);
+returnRoutes.get("/track/:returnId", getReturnTracking);
+returnRoutes.get("/all", getAllReturns);
 
 export default returnRoutes;
